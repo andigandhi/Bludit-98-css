@@ -52,9 +52,25 @@ img {
 #mainMenu {
   position: absolute;
   left: 5px;
-  width: 300px;
+  width: 450px;
+  max-width: 100%;
   /*overflow: overlay;*/
   z-index: 100;
+}
+
+#mainMenuLeft {
+  width: 300px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  overflow: hidden;
+  float: left;
+}
+
+#mainMenuCategories {
+  width: 130px;
+  float: left;
 }
 
 #mainMenuSideBar {
@@ -71,7 +87,7 @@ img {
 
 #menu_content,
 #menu-content-image {
-  margin-left: 20px;
+  margin-left: 5px;
 }
 
 #menu-content-image {
@@ -79,6 +95,20 @@ img {
   margin-top: 5px;
   margin-bottom: 10px;
   display: block;
+}
+
+.mainMenuCategoriesItem {
+  color: #00007e;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {
+  #mainMenuCategories {
+    display: none !important;
+  }
 }
 
 .menuButton {

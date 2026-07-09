@@ -1,5 +1,10 @@
 // TODO: Clean up Code!
 
+var screen_dimension = [
+  window.innerWidth || document.documentElement.clientHeight || document.body.clientWidth,
+  window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+];
+
 // ------ Methods for the window divs ------
 
 // Adds a new window with a innerHtml to the document
@@ -87,19 +92,23 @@ function fillWindow(title, link, icon, windowSize = [816, 480], windowBorder) {
   var left;
   var top;
 
-  // Total height of the document
-  var totalHeight =
-    window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
   if (typeof windowBorder === 'undefined') {
     left = Math.floor(Math.random() * (document.body.clientWidth - windowSize[0]));
-    top = Math.floor(Math.random() * (totalHeight - windowSize[1] - 50));
+    top = Math.floor(Math.random() * (screen_dimension[1] - windowSize[1] - 50));
   } else {
     left = windowBorder[0];
     top = windowBorder[1];
 
     windowSize[0] = document.body.clientWidth - left - windowBorder[2];
-    windowSize[1] = totalHeight - top - windowBorder[3] - 50;
+    windowSize[1] = screen_dimension[1] - top - windowBorder[3] - 50;
+  }
+
+  // Avoid windows that are larger than the screen (e.g. for mobile devices)
+  if (windowSize[0] > screen_dimension[0]) {
+    windowSize[0] = screen_dimension[0];
+    windowSize[1] = screen_dimension[1];
+    left = 0;
+    top = 0;
   }
 
   let innerHTML =
@@ -119,14 +128,15 @@ function resizeWindow(window_id) {
   var window_div = document.getElementById(window_id);
   var resize_button = document.getElementById('btn-resize-' + window_id);
 
-  w = '100%';
-  h = '100%';
-
   if (window_div.style.width == '100%') {
     w = '816px';
     h = '480px';
+    window_div.style.top = Math.floor(Math.random() * (screen_dimension[1] - 480 - 50)) + "px";
+    window_div.style.left =  Math.floor(Math.random() * (document.body.clientWidth - 816)) + "px";
     resize_button.ariaLabel = 'Maximize';
   } else {
+    w = '100%';
+    h = screen_dimension[1] - 50 + 'px';
     window_div.style.top = '0';
     window_div.style.left = '0';
     resize_button.ariaLabel = 'Restore';
@@ -192,12 +202,11 @@ function positionTaskbar() {
     document.getElementById('mainMenu').style.width = '75%';
   }
 
-  var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-  document.getElementById('taskbar').style.marginTop = h - 50 + 'px';
+  document.getElementById('taskbar').style.marginTop = screen_dimension[1] - 50 + 'px';
 
   var menuHeight = document.getElementById('mainMenu').offsetHeight;
-  document.getElementById('mainMenu').style.marginTop = h - 50 - menuHeight + 'px';
+  document.getElementById('mainMenu').style.marginTop =
+    screen_dimension[1] - 50 - menuHeight + 'px';
   document.getElementById('mainMenuSideBar').style.height = menuHeight + 'px';
 }
 

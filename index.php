@@ -6,6 +6,10 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
 } elseif (isset($_GET['archive'])) {
   include THEME_DIR_PHP . 'archive.php';
   exit();
+} elseif (isset($_GET['category'])) {
+  $currentCategory = htmlspecialchars($_GET['category']);
+  include THEME_DIR_PHP . 'category.php';
+  exit();
 } ?>
 
 <!doctype html>
@@ -14,16 +18,32 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
     <?php include THEME_DIR_PHP . 'head.php'; ?>
 </head>
 
-<body onResize="positionTaskbar()" onLoad="positionTaskbar()">
+<body onLoad="positionTaskbar()">
 
 	<!-- Creates the main Menu -->
 	<div class="window" id="mainMenu">
 		<div id="mainMenuSideBar"></div>
+		<div id="mainMenuLeft">
 		<img alt="" id="menu-content-image" src="<?php echo $site->logo()
     ? DOMAIN_UPLOADS . $site->logo(false)
     : DOMAIN_THEME . '/img/andigandhi98.png'; ?>">
 		<div id="menu_content">
 		</div>
+		</div>
+		<div id="mainMenuCategories">
+		<?php
+  global $categories;
+  foreach ($categories->db as $key => $fields) {
+    echo '<div class="mainMenuCategoriesItem" onClick=\'fillWindow("' .
+      $fields['name'] .
+      '","?category=' .
+      $key .
+      '","' . DOMAIN_THEME . 'img/archive.png")\'>' .
+      $fields['name'] .
+      '</div>';
+  }
+  ?>
+    </div>
 	</div>
 
 	<!-- Creates the Taskbar -->
@@ -100,6 +120,15 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
         // Create the page object from the page key
         $pageObj = new Page($list[$i]);
         if (!$pageObj->noindex()) {
+          if ($pageObj->getValue("type") == "sticky") {
+              echo 'fillWindow("' .
+                $pageObj->title() .
+                '", "' .
+                $pageObj->permalink() .
+                '?loadedFromIndex", "' .
+                $pageObj->coverImage() .
+                '");';
+          }
           echo 'add_menu_item("' .
             $pageObj->title() .
             '", "' .

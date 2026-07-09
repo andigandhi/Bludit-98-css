@@ -49,7 +49,8 @@
           }
           echo '<div style="height: 20px;line-height: 20px;margin: 5px;float:left;"><b>' .
             $pageObj->title() .
-            '</b></div></div></a><hr>';
+            '</b></div></div></a>';
+          echo $pageObj->description().'<hr>';
         }
       } catch (Exception $e) {
         // Continue
