@@ -23,27 +23,34 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
 	<!-- Creates the main Menu -->
 	<div class="window" id="mainMenu">
 		<div id="mainMenuSideBar"></div>
-		<div id="mainMenuLeft">
 		<img alt="" id="menu-content-image" src="<?php echo $site->logo()
     ? DOMAIN_UPLOADS . $site->logo(false)
     : DOMAIN_THEME . '/img/andigandhi98.png'; ?>">
+		<!-- Menu Items (filled by JavaScript) -->
 		<div id="menu_content">
 		</div>
-		</div>
+
+		<hr>
+
+		<!-- Categories -->
 		<div id="mainMenuCategories">
 		<?php
   global $categories;
   foreach ($categories->db as $key => $fields) {
-    echo '<div class="mainMenuCategoriesItem" onClick=\'fillWindow("' .
+    echo '<div class="menuButton" style="height: 30px" onClick=\'fillWindow("' .
       $fields['name'] .
       '","?category=' .
       $key .
-      '","' . DOMAIN_THEME . 'img/archive.png")\'>' .
+      '","' . DOMAIN_THEME . 'img/archive.png")\'>';
+    echo '<img alt="Icon for category ' .
       $fields['name'] .
-      '</div>';
+      '" src="' . DOMAIN_THEME . 'img/archive.png" style="width: 20px; margin: 5px; float:left;">';
+    echo '<div style="height: 20px;line-height: 20px;margin: 5px;float:left;"><b>' .
+      $fields['name'] .
+      '</b></div></div>';
   }
   ?>
-    </div>
+		</div>
 	</div>
 
 	<!-- Creates the Taskbar -->
