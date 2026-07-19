@@ -180,3 +180,12 @@ button.active {
   width: 100%;
   cursor: pointer;
 }
+
+/* Drag-to-Resize handles */
+.window-resize-grip {
+  pointer-events: auto;
+}
+.window-resize-right,
+.window-resize-bottom {
+  pointer-events: auto;
+}

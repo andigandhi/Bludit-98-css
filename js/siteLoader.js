@@ -128,27 +128,47 @@ function resizeWindow(window_id) {
   var window_div = document.getElementById(window_id);
   var resize_button = document.getElementById('btn-resize-' + window_id);
 
+  // Resize-Griffe ein-/ausblenden
+  var grips = window_div.querySelectorAll(
+    '.window-resize-grip, .window-resize-right, .window-resize-bottom'
+  );
+
   if (window_div.style.width == '100%') {
     w = '816px';
     h = '480px';
     window_div.style.top = Math.floor(Math.random() * (screen_dimension[1] - 480 - 50)) + "px";
     window_div.style.left =  Math.floor(Math.random() * (document.body.clientWidth - 816)) + "px";
     resize_button.ariaLabel = 'Maximize';
+
+    // Griffe wieder einblenden
+    for (var i = 0; i < grips.length; i++) {
+      grips[i].style.display = '';
+    }
   } else {
     w = '100%';
     h = screen_dimension[1] - 50 + 'px';
     window_div.style.top = '0';
     window_div.style.left = '0';
     resize_button.ariaLabel = 'Restore';
+
+    // Griffe ausblenden (maximiertes Fenster nicht skalierbar)
+    for (var i = 0; i < grips.length; i++) {
+      grips[i].style.display = 'none';
+    }
   }
 
   window_div.style.width = w;
   window_div.style.height = h;
 
-  window_div.getElementsByClassName('window-content')[0].width = window_div.clientWidth - 16;
-  window_div.getElementsByClassName('window-content')[0].height = window_div.clientHeight - 35;
-  window_div.getElementsByClassName('window-body')[0].style.height =
-    window_div.clientHeight - 35 + 'px';
+  var content = window_div.getElementsByClassName('window-content')[0];
+  if (content) {
+    content.width = window_div.clientWidth - 16;
+    content.height = window_div.clientHeight - 35;
+  }
+  var body = window_div.getElementsByClassName('window-body')[0];
+  if (body) {
+    body.style.height = window_div.clientHeight - 35 + 'px';
+  }
 }
 
 // Removes a window with a specific ID (close button)
