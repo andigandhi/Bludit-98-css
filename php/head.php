@@ -24,3 +24,5 @@
 
 <!-- Script to add the move listener to the window divs -->
 <?php echo Theme::js('js/windowMover.js'); ?>
+<!-- Script to add drag-to-resize handles to windows -->
+<?php echo Theme::js('js/windowResizer.js'); ?>

@@ -1,5 +1,5 @@
 <!-- Clock -->
-<span id="nav-clock">00:00</span>
+<span id="nav-clock">00:00<br>00.00.0000</span>
 <script>
 function startTime() {
   const today = new Date();
@@ -7,7 +7,9 @@ function startTime() {
   let m = today.getMinutes();
   h = timeAddZeroes(h);
   m = timeAddZeroes(m);
-  document.getElementById('nav-clock').innerHTML =  h + ":" + m;
+  let time = h+":"+m
+  let date = today.getDate() + ". " + today.getMonth() + ". " + today.getFullYear();
+  document.getElementById('nav-clock').innerHTML =  time + "<br>" + date;
   setTimeout(startTime, 10000);
 }
 

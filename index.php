@@ -6,6 +6,10 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
 } elseif (isset($_GET['archive'])) {
   include THEME_DIR_PHP . 'archive.php';
   exit();
+} elseif (isset($_GET['category'])) {
+  $currentCategory = htmlspecialchars($_GET['category']);
+  include THEME_DIR_PHP . 'category.php';
+  exit();
 } ?>
 
 <!doctype html>
@@ -14,7 +18,7 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
     <?php include THEME_DIR_PHP . 'head.php'; ?>
 </head>
 
-<body onResize="positionTaskbar()" onLoad="positionTaskbar()">
+<body onLoad="positionTaskbar()">
 
 	<!-- Creates the main Menu -->
 	<div class="window" id="mainMenu">
@@ -22,7 +26,30 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
 		<img alt="" id="menu-content-image" src="<?php echo $site->logo()
     ? DOMAIN_UPLOADS . $site->logo(false)
     : DOMAIN_THEME . '/img/andigandhi98.png'; ?>">
+		<!-- Menu Items (filled by JavaScript) -->
 		<div id="menu_content">
+		</div>
+
+		<hr>
+
+		<!-- Categories -->
+		<div id="mainMenuCategories">
+		<?php
+  global $categories;
+  foreach ($categories->db as $key => $fields) {
+    echo '<div class="menuButton" style="height: 30px" onClick=\'fillWindow("' .
+      $fields['name'] .
+      '","?category=' .
+      $key .
+      '","' . DOMAIN_THEME . 'img/archive.png")\'>';
+    echo '<img alt="Icon for category ' .
+      $fields['name'] .
+      '" src="' . DOMAIN_THEME . 'img/archive.png" style="width: 20px; margin: 5px; float:left;">';
+    echo '<div style="height: 20px;line-height: 20px;margin: 5px;float:left;"><b>' .
+      $fields['name'] .
+      '</b></div></div>';
+  }
+  ?>
 		</div>
 	</div>
 
@@ -100,6 +127,15 @@ if ($WHERE_AM_I == 'page' && isset($_GET['loadedFromIndex'])) {
         // Create the page object from the page key
         $pageObj = new Page($list[$i]);
         if (!$pageObj->noindex()) {
+          if ($pageObj->getValue("type") == "sticky") {
+              echo 'fillWindow("' .
+                $pageObj->title() .
+                '", "' .
+                $pageObj->permalink() .
+                '?loadedFromIndex", "' .
+                $pageObj->coverImage() .
+                '");';
+          }
           echo 'add_menu_item("' .
             $pageObj->title() .
             '", "' .

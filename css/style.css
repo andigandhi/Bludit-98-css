@@ -53,6 +53,7 @@ img {
   position: absolute;
   left: 5px;
   width: 300px;
+  max-width: 100%;
   /*overflow: overlay;*/
   z-index: 100;
 }
@@ -70,7 +71,8 @@ img {
 }
 
 #menu_content,
-#menu-content-image {
+#menu-content-image,
+#mainMenuCategories {
   margin-left: 20px;
 }
 
@@ -81,12 +83,25 @@ img {
   display: block;
 }
 
+@media screen and (max-width: 450px) {
+  #mainMenuCategories {
+    display: none !important;
+  }
+}
+
 .menuButton {
   width: 98%;
   text-align: left;
   border: none;
   cursor: pointer;
   margin: 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #dfdfdf;
+  margin: 8px 5px;
 }
 
 .menuButton:hover {
@@ -164,4 +179,13 @@ button.active {
 .desktop-icon-image {
   width: 100%;
   cursor: pointer;
+}
+
+/* Drag-to-Resize handles */
+.window-resize-grip {
+  pointer-events: auto;
+}
+.window-resize-right,
+.window-resize-bottom {
+  pointer-events: auto;
 }
